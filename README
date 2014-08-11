@@ -1,0 +1,72 @@
+
+
+ .::::::: httpd 2.2.22 compiled with xlc 11.1.0.0 in AIX 7.1 :::::::.
+
+
+
+ .: Instructions for compilation from sources
+
+
+Install rpm source package
+
+rpm -ivh httpd-2.2.22-1_SAP.src.rpm
+
+The source tarball and the spec file will be found on these paths
+
+/opt/freeware/src/packages/SOURCES
+/opt/freeware/src/packages/SPECS
+
+
+ .: You may need edit the spec file before compilation
+
+
+These are the compilation options recomended by SAP.
+
+export CC=xlc_r
+export CXX=xlC_r
+export CFLAGS="-q64 -qcheck=all"
+export LDFLAGS="-b64"
+export EXTRA_LDFLAGS_SHLIB="-b64"
+export OBJECT_MODE=64
+
+
+./configure \
+	--prefix=/%{prefix}/apache2 \
+	--enable-mods-shared=most \
+	--with-mpm=prefork \
+	--enable-maintainer-mode
+
+
+
+ .: Uncomment these lines in the spec file if you need link to /usr/bin and /usr/include
+	
+
+# Link files in /usr/bin
+#(
+# cd $RPM_BUILD_ROOT
+# mkdir -p usr/bin
+# cd usr/bin
+# ln -sf ../../%{prefix}/apache2/bin/* .
+# cd -
+#)
+
+# Link files in /usr/include
+#( 
+# cd $RPM_BUILD_ROOT
+# mkdir -p usr/include
+# cd usr/include
+# ln -sf ../../%{prefix}/apache2/include/* .
+# cd -
+
+
+ .: To compile and generate the RPMs do
+
+rpm -ba /opt/freeware/src/packages/SPECS/httpd-2.2.22-1_SAP.spec
+
+The RPMs will be generated on these paths
+
+/opt/freeware/src/packages/RPMS/ppc
+/opt/freeware/src/packages/SRPMS
+
+
+
